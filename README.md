@@ -2,7 +2,7 @@
 Reproduction repository for https://github.com/moleculerjs/moleculer/issues/629
 
 # What is this?
-This a repository to reproduce [moleduler-629](https://github.com/moleculerjs/moleculer/issues/629)
+This a repository to reproduce [moleculer-629](https://github.com/moleculerjs/moleculer/issues/629)
 
 # Requirements
 1. Docker >= 19.03.5
