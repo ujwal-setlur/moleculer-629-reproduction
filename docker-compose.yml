@@ -1,0 +1,44 @@
+
+version: "3"
+
+# All our services will be running on this network
+networks:
+  kafka-network:
+
+# These are the byte services
+services:
+  moleculer:
+    build: .
+    image: 'moleculer:kafka'
+    container_name: 'moleculer'
+    hostname: 'moleculer'
+    ports:
+      - '3000'
+    networks: 
+      - kafka-network
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    container_name: 'zookeeper'
+    hostname: 'zookeeper'
+    ports:
+      - '2181:2181'
+    networks:
+      - kafka-network
+    environment: 
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: 'kafka'
+    hostname: 'kafka'
+    ports:
+      - '8083:8083'
+      - '9092:9092'
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092
+    networks:
+      - kafka-network
+    depends_on: 
+      - zookeeper
